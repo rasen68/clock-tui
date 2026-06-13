@@ -279,14 +279,17 @@ impl App {
     }
 
     pub fn ui(&self, f: &mut Frame) {
-        if let Some(ref w) = self.clock {
-            f.render_widget(w, f.size());
-        } else if let Some(ref w) = self.timer {
-            f.render_widget(w, f.size());
-        } else if let Some(ref w) = self.stopwatch {
-            f.render_widget(w, f.size());
-        } else if let Some(ref w) = self.countdown {
-            f.render_widget(w, f.size());
+        let height = f.size().height;
+        if height >= 5 {
+            if let Some(ref w) = self.clock {
+                f.render_widget(w, f.size());
+            } else if let Some(ref w) = self.timer {
+                f.render_widget(w, f.size());
+            } else if let Some(ref w) = self.stopwatch {
+                f.render_widget(w, f.size());
+            } else if let Some(ref w) = self.countdown {
+                f.render_widget(w, f.size());
+            }
         }
     }
 
