@@ -21,7 +21,11 @@ use self::modes::Pause;
 use self::modes::Stopwatch;
 use self::modes::Timer;
 
+use std::cmp::min;
+
 pub mod modes;
+
+const NUMBER_HEIGHT: u16 = 5;
 
 #[derive(Debug, Subcommand)]
 pub enum Mode {
@@ -278,16 +282,24 @@ impl App {
         }
     }
 
-    pub fn ui(&self, f: &mut Frame) {
+    pub fn ui(&mut self, f: &mut Frame) {
         let height = f.size().height;
-        if height >= 5 {
-            if let Some(ref w) = self.clock {
+        if height >= NUMBER_HEIGHT {
+            if let Some(ref mut w) = self.clock {
+                w.size = min(height / NUMBER_HEIGHT, w.size);
+                let w = &*w;
                 f.render_widget(w, f.size());
-            } else if let Some(ref w) = self.timer {
+            } else if let Some(ref mut w) = self.timer {
+                w.size = min(height / NUMBER_HEIGHT, w.size);
+                let w = &*w;
                 f.render_widget(w, f.size());
-            } else if let Some(ref w) = self.stopwatch {
+            } else if let Some(ref mut w) = self.stopwatch {
+                w.size = min(height / NUMBER_HEIGHT, w.size);
+                let w = &*w;
                 f.render_widget(w, f.size());
-            } else if let Some(ref w) = self.countdown {
+            } else if let Some(ref mut w) = self.countdown {
+                w.size = min(height / NUMBER_HEIGHT, w.size);
+                let w = &*w;
                 f.render_widget(w, f.size());
             }
         }
